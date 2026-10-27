@@ -1,0 +1,246 @@
+body {
+  margin: 0;
+  background: #f6f5ef;
+  color: #20352f;
+  font-family: Arial, sans-serif;
+}
+
+body.login-background {
+  background-image: url("../이미지 폴더/plane2.jpeg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px;
+  background: #fff;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  color: #20352f;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.logo-mark { width: 32px; height: 32px; }
+
+.trip {
+  height: 400px;
+  padding: 50px;
+  color: #fff;
+  background-image: url("../이미지 폴더/plane.jpeg");
+  background-position: center;
+  background-size: cover;
+}
+
+#trips { background-image: url("../이미지 폴더/plane front.jpg"); }
+
+.trip h1 { font-size: 48px; }
+
+section { padding: 40px 8%; }
+
+section h2 { color: #91a3f3; }
+
+#fansion-title { font-size: 32px; font-weight: 900; }
+
+.exchange-section { background: #fff; }
+
+.exchange-section h2 { margin-top: 0; }
+
+body.exchange-page #menu-page > section:not(#exchange) { display: none; }
+
+#exchange-date { color: #62716b; }
+
+.exchange-attribution { margin-top: -8px; font-size: 13px; }
+
+.exchange-attribution a { color: #62716b; }
+
+.exchange-rates {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.exchange-rate-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f6f5ef;
+}
+
+.exchange-rate-card strong { font-size: 18px; }
+
+.exchange-calculator {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 8px;
+  background: #f6f5ef;
+}
+
+.exchange-calculator h3 { margin-top: 0; }
+
+.exchange-fields {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+}
+
+.exchange-fields label {
+  display: grid;
+  flex: 1;
+  gap: 6px;
+}
+
+.exchange-fields input,
+.exchange-fields select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 9px;
+  font-size: 15px;
+}
+
+.exchange-arrow { padding-bottom: 9px; }
+
+.exchange-result {
+  margin-bottom: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.places {
+  display: flex;
+  gap: 15px;
+}
+
+.place {
+  width: 33%;
+  padding: 10px;
+  background: #fff;
+}
+
+.place a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.photo-placeholder {
+  display: grid;
+  width: 100%;
+  height: 280px;
+  place-items: center;
+  background: #e9eee5;
+  color: #20352f;
+  font-size: 40px;
+}
+
+#trips-title {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.trip-english { font-style: italic; }
+
+.world-travel { background: #edf3ee; }
+
+.world-travel-heading { max-width: 680px; }
+
+.world-travel-heading h2 { margin: 4px 0 10px; color: #20352f; font-size: 34px; }
+
+.world-travel-heading > p:not(.section-eyebrow) { margin: 0; color: #62716b; }
+
+.section-eyebrow { margin: 0; color: #55776b; font-size: 13px; font-weight: bold; letter-spacing: .12em; }
+
+.map-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, .8fr); gap: 24px; margin-top: 26px; align-items: stretch; }
+
+.map-panel, .travel-info-card { border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(32, 53, 47, .08); }
+
+.map-panel { padding: 18px; }
+
+.world-map { display: block; width: 100%; height: auto; border-radius: 10px; background: #cfe8ed; }
+
+.map-land { fill: #b4d2b5; stroke: #7eaa86; stroke-width: 3; stroke-linejoin: round; }
+
+.map-oceania { fill: #b4d2b5; }
+
+.map-region { cursor: pointer; }
+
+.map-region.is-disabled { cursor: not-allowed; opacity: .42; }
+
+.map-region circle { fill: #fff; stroke: #20352f; stroke-width: 3; transition: .2s ease; }
+
+.map-region text { fill: #20352f; font-size: 12px; font-weight: bold; text-anchor: middle; pointer-events: none; }
+
+.map-region:not(.is-disabled):hover circle, .map-region:not(.is-disabled):focus circle, .map-region.is-active circle { fill: #20352f; }
+
+.map-region:not(.is-disabled):hover text, .map-region:not(.is-disabled):focus text, .map-region.is-active text { fill: #fff; }
+
+.map-region:focus { outline: none; }
+
+.map-hint { margin: 13px 0 0; color: #62716b; font-size: 14px; text-align: center; }
+
+.travel-info-card { padding: 28px; }
+
+.travel-info-card h3 { margin: 0 0 7px; color: #20352f; font-size: 28px; }
+
+.travel-info-card .travel-country { margin: 0; color: #55776b; font-weight: bold; }
+
+.travel-info-card .travel-summary { line-height: 1.65; }
+
+.travel-tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+
+.travel-tags li { padding: 7px 10px; border-radius: 20px; background: #edf3ee; color: #365a4b; font-size: 14px; }
+
+.travel-tip { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid #dce7de; color: #465b52; line-height: 1.5; }
+
+button, select {
+      padding: 9px;
+  font-size: 15px;
+}
+
+button {
+  border: 0;
+  color: #fff;
+  background: #20352f;
+}
+
+.menu a { margin: 5px 12px; color: #20352f; }
+
+.login-box {
+  width: 500px;
+  max-width: 92%;
+  box-sizing: border-box;
+  margin: 40px auto;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.login-box input {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0 16px;
+  padding: 10px;
+}
+
+@media (max-width: 650px) {
+  .trip { height: 300px; padding: 20px; }
+  .trip h1 { font-size: 36px; }
+  #trips-title { font-size: 36px; }
+  .places { display: block; }
+  .place { width: 100%; margin-bottom: 15px; }
+  .exchange-fields { align-items: stretch; flex-direction: column; }
+  .exchange-arrow { align-self: center; padding: 0; }
+  .map-layout { grid-template-columns: 1fr; }
+  .world-travel-heading h2 { font-size: 28px; }
+  .travel-info-card { padding: 22px; }
+}

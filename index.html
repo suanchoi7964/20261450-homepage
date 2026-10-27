@@ -1,24 +1,132 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="X-UA-compatible" content= "ie=edge">
-        <title>2026년 10월 17일</title>
-        <!--<link rel="stylesheet" href ="9rd.js">-->
-    </head>
-    <body>
-        <div id = "item">
-            <img src = "우사기 2번.gif" alt = "">
-            <button class = "over" id = "open" onclick="showDetail()">상세 설명 보기</button>
-            <div id = "desc" class = "detail">
-                <h4>최수안최수안최수안최수안최수안</h4>
-                <p>[Web발신]
-너는나를존중해야한다나는발롱도르5개와수많은개인트로피를들어올렸으며2016유로에서포르투갈을이끌고우승을차지했고동시에A매치역대최다득점자이다또한챔스역대최다득점자이자5번이나우승을차지한레알마드리드의상징이다또한36세의나이에도프리미어리그에서18골을기록하고챔스에서5경기연속골을기록하며내가세계최고임을증명해냈다은혜를모르는맨유보드진과팬들은내가맨유의골칫덩이라며쫓아냈지만내가세계최고이고내가팀보다위대하다는사실은바뀌지않는다내가사우디에간이유는메시에대한자격지심이아니라유럽에서이룰수있는모든것을이루었기에아시아를정복하기위해간것이지단지돈을위해서간것이아니다</p>
-                <button id = "close"onclick="hideDetail()">상세 설명 닫기</button>
-            </div>
+<head>
+  <meta charset="UTF-8">
+  <title>BYTRIP</title>
+  <link rel="icon" type="image/png" href="../이미지 폴더/mark.png">
+  <link rel="stylesheet" href="../css/travel-menu.css">
+</head>
+<body>
+  <header>
+    <a class="logo" id="logo" href="#home" onclick="showMenu()">
+      <img class="logo-mark" src="../이미지 폴더/mark.png" alt="">
+      <span id="logo-text">BYTRIP</span>
+    </a>
+    <div class="menu">
+      <a id="exchange-menu-link" href="#exchange" onclick="showExchangePage(); return false;">현재 환율</a>
+      <a href="2.html">맛집 추천</a>
+      <a href="3.html">여행 떠나기</a>
+      <a href="4.html">4</a>
+    </div>
+    <select id="language" onchange="changeLanguage()">
+      <option value="ko">한국어</option>
+      <option value="en">English</option>
+      <option value="zh">中文</option>
+      <option value="ja">日本語</option>
+    </select>
+    <button id="login-button" onclick="showLogin()">로그인</button>
+  </header>
+
+  <main id="menu-page">
+    <section class="trip" id="home">
+      <h1 id="trip-title">떠나고 싶은<br>오늘의 여행</h1>
+    </section>
+
+    <section class="exchange-section" id="exchange">
+      <h2 id="exchange-title">현재 환율</h2>
+      <p id="exchange-date" aria-live="polite">환율 정보를 불러오는 중...</p>
+      <p class="exchange-attribution"><a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer">환율 데이터 제공: ExchangeRate-API</a></p>
+      <div class="exchange-rates" id="exchange-rates" aria-live="polite"></div>
+
+      <div class="exchange-calculator">
+        <h3 id="calculator-title">환율 계산기</h3>
+        <div class="exchange-fields">
+          <label>
+            <span id="amount-label">금액</span>
+            <input id="exchange-amount" type="number" min="0" step="any" value="1">
+          </label>
+          <label>
+            <span id="from-currency-label">보내는 통화</span>
+            <select id="from-currency">
+              <option value="KRW">KRW - 대한민국 원</option>
+              <option value="USD">USD - 미국 달러</option>
+              <option value="JPY">JPY - 일본 엔</option>
+              <option value="CNY">CNY - 중국 위안</option>
+              <option value="EUR">EUR - 유로</option>
+              <option value="HKD">HKD - 홍콩 달러</option>
+              <option value="IDR">IDR - 인도네시아 루피아</option>
+              <option value="INR">INR - 인도 루피</option>
+              <option value="MYR">MYR - 말레이시아 링깃</option>
+              <option value="PHP">PHP - 필리핀 페소</option>
+              <option value="SGD">SGD - 싱가포르 달러</option>
+              <option value="THB">THB - 태국 바트</option>
+            </select>
+          </label>
+          <span class="exchange-arrow" aria-hidden="true">→</span>
+          <label>
+            <span id="to-currency-label">받는 통화</span>
+            <select id="to-currency">
+              <option value="USD">USD - 미국 달러</option>
+              <option value="KRW">KRW - 대한민국 원</option>
+              <option value="JPY">JPY - 일본 엔</option>
+              <option value="CNY">CNY - 중국 위안</option>
+              <option value="EUR">EUR - 유로</option>
+              <option value="HKD">HKD - 홍콩 달러</option>
+              <option value="IDR">IDR - 인도네시아 루피아</option>
+              <option value="INR">INR - 인도 루피</option>
+              <option value="MYR">MYR - 말레이시아 링깃</option>
+              <option value="PHP">PHP - 필리핀 페소</option>
+              <option value="SGD">SGD - 싱가포르 달러</option>
+              <option value="THB">THB - 태국 바트</option>
+            </select>
+          </label>
         </div>
-        
-        <script src = "9rd.js"></script>
-    </body>
+        <p class="exchange-result" id="exchange-result" aria-live="polite">환율 정보를 불러오는 중...</p>
+      </div>
+    </section>
+
+    <section id="fansion">
+      <h2 id="fansion-title">숙소 추천</h2>
+      <div class="places">
+        <div class="place">
+          <div class="photo-placeholder">사진</div>
+          <a href="1.html"><h3 id="taj-title">숙소1</h3></a>
+        </div>
+        <div class="place">
+          <div class="photo-placeholder">사진</div>
+          <a href="2.html"><h3 id="osaka-title">숙소2</h3></a>
+        </div>
+        <div class="place">
+          <div class="photo-placeholder">사진</div>
+          <a href="3.html"><h3 id="hoian-title">숙소3</h3></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="trip" id="trips">
+      <h2 id="trips-title">즐거운 여행 되시길 바랍니다!<br><span class="trip-english">Have a nice trip!</span></h2>
+    </section>
+  </main>
+
+  <section class="login-box" id="login-page" style="display: none;">
+    <h1 id="login-title">로그인</h1>
+    <label><span id="id-label">아이디</span><input type="text"></label>
+    <label><span id="password-label">비밀번호</span><input type="password"></label>
+    <button id="login-submit" onclick="showMenu()">로그인</button>
+    <button id="signup-button" onclick="showSignup()">회원가입</button>
+    <button id="menu-button" onclick="showMenu()">메뉴로 돌아가기</button>
+  </section>
+
+  <section class="login-box" id="signup-page" style="display: none;">
+    <h1 id="signup-title">회원가입</h1>
+    <label><span id="email-label">이메일</span><input type="email"></label>
+    <label><span id="phone-label">전화번호</span><input type="tel"></label>
+    <label><span id="name-label">이름</span><input type="text"></label>
+    <label><span id="signup-password-label">비밀번호</span><input type="password"></label>
+    <button id="confirm-button" onclick="signupComplete()">확인</button>
+    <button id="back-login-button" onclick="showLogin()">로그인으로 돌아가기</button>
+  </section>
+
+  <script src="../js/travel-menu.js"></script>
+</body>
 </html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BYTRIP | 여행 떠나기</title>
+  <link rel="icon" type="image/png" href="../이미지 폴더/mark.png">
+  <style>
+    :root { --ink: #183b4b; --mint: #62d0be; --sky: #8fd5e6; --paper: #f5f9f7; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--ink); font-family: Arial, sans-serif; background: #0b2232; }
+    header { position: fixed; top: 0; right: 0; left: 0; z-index: 20; display: flex; align-items: center; gap: 20px; padding: 15px 8%; background: rgba(255,255,255,.92); border-bottom: 1px solid rgba(219,233,229,.75); }
+    .logo { display: flex; align-items: center; gap: 8px; margin-right: auto; color: var(--ink); font-size: 22px; font-weight: bold; text-decoration: none; }
+    .logo img { width: 32px; height: 32px; }
+    .back-link { color: var(--ink); font-size: 15px; text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+    main { position: relative; width: 100%; height: 100vh; min-height: 720px; overflow: hidden; }
+    main > .eyebrow, main > h1, main > .intro { position: absolute; z-index: 4; left: 8%; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,.38); }
+    main > .eyebrow { top: 136px; margin: 0; color: #86e8d9; font-size: 12px; font-weight: bold; letter-spacing: .15em; }
+    h1 { top: 161px; max-width: 600px; margin: 0; font-size: clamp(32px, 5vw, 54px); letter-spacing: -.05em; }
+    .intro { top: 326px; max-width: 570px; margin: 0; color: #d5eded !important; line-height: 1.7; }
+    .globe-wrap { position: absolute; inset: 0; min-height: 100%; overflow: hidden; background: radial-gradient(circle at 50% 50%, #236679 0, #123d50 36%, #0b2232 77%); }
+    #globe { width: 100%; height: 100%; min-height: 100%; cursor: grab; touch-action: none; }
+    #globe:active { cursor: grabbing; }
+    .info { position: absolute; z-index: 5; right: 7%; bottom: 92px; width: min(410px, calc(100% - 40px)); max-height: 335px; overflow: auto; margin: 0; padding: 24px 28px; border: 1px solid rgba(255,255,255,.28); border-radius: 18px; color: #f7ffff; background: rgba(7, 31, 43, .78); box-shadow: 0 10px 32px rgba(0,0,0,.22); backdrop-filter: blur(12px); }
+    .info h2 { margin: 5px 0 8px; font-size: 30px; }
+    .info p { color: #d7eeef; line-height: 1.65; }
+    .country-name { color: #8cf0df !important; font-size: 14px; font-weight: bold; letter-spacing: .08em; }
+    .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+    .plan-grid div { padding: 11px; border-radius: 10px; background: rgba(255,255,255,.08); }
+    .plan-grid span { display: block; margin-bottom: 4px; color: #99c6c8; font-size: 11px; font-weight: bold; }
+    .plan-grid strong { font-size: 13px; line-height: 1.35; }
+    .itinerary-label { margin: 18px 0 8px; color: #8ce5d7 !important; font-size: 13px; font-weight: bold; }
+    .itinerary { margin: 0; padding: 0; list-style: none; }
+    .itinerary li { display: grid; grid-template-columns: 40px 1fr; gap: 7px; margin: 10px 0; color: #e2f1f1; font-size: 13px; line-height: 1.5; }
+    .itinerary li strong { padding-top: 2px; color: #81e1d2; font-size: 10px; }
+    .source-link { margin: 12px 0 0; font-size: 12px; }
+    .source-link a { color: #8ce5d7; text-decoration: none; }
+    .source-link a:hover { text-decoration: underline; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+    .tags li { padding: 7px 10px; border-radius: 99px; color: #d8fffa; font-size: 13px; background: rgba(98,208,190,.18); }
+    .tip { margin-top: 22px; padding-top: 17px; border-top: 1px solid rgba(255,255,255,.2); font-size: 14px; }
+    .planner-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.18); }
+    .planner-tools span { width: 100%; margin-bottom: 2px; color: #9bcaca; font-size: 12px; font-weight: bold; }
+    .planner-tools button { padding: 7px 10px; border: 1px solid rgba(205,244,238,.3); border-radius: 8px; color: #eafffb; font: inherit; font-size: 12px; background: rgba(255,255,255,.08); cursor: pointer; }
+    .planner-tools button:hover, .planner-tools button:focus, .planner-tools button.is-selected { border-color: #71dacb; background: rgba(67,160,149,.45); outline: none; }
+    .planner-tools .wish-button { margin-left: auto; border-color: rgba(255,209,102,.5); color: #ffe7a2; }
+    .country-loading { color: #a5d6d4; font-size: 12px; }
+    .region-controls { position: absolute; top: 102px; right: 7%; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px; }
+    .region-controls button { padding: 10px 14px; border: 1px solid rgba(255,255,255,.35); border-radius: 99px; color: #fff; font: inherit; background: rgba(11,39,54,.66); cursor: pointer; }
+    .region-controls button:hover, .region-controls button:focus { border-color: var(--mint); background: #1d6e70; outline: none; }
+    .guide { position: absolute; top: 96px; left: 8%; z-index: 5; margin: 0; color: #d5f3f0; font-size: 14px; }
+    .loading { display: grid; height: 100%; min-height: 570px; place-items: center; color: #d5f3f0; }
+    @media (max-width: 800px) { main { min-height: 760px; } main > .eyebrow { top: 92px; left: 20px; } h1 { top: 116px; left: 20px; font-size: 36px; } .intro { top: 232px; left: 20px; right: 20px; font-size: 14px; } .globe-wrap, #globe, .loading { min-height: 100%; } .info { right: 16px; bottom: 22px; left: 16px; width: auto; max-height: 250px; padding: 20px; } .region-controls { top: 326px; right: 18px; left: 18px; justify-content: center; } .guide { top: 298px; left: 20px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="travel-menu.html"><img src="../이미지 폴더/mark.png" alt=""><span>BYTRIP</span></a>
+    <a class="back-link" href="travel-menu.html">← 메인으로 돌아가기</a>
+  </header>
+  <main>
+    <p class="eyebrow">만족스러운 여행, 떠날 준비 되셨나요?</p>
+    <h1>지구본을 돌려<br>다음 여행지를 찾아보세요.</h1>
+    <p class="intro">마우스로 지구본을 드래그해 돌리고, 휠로 확대할 수 있습니다. 현재는 아시아와 오세아니아의 여행 정보만 선택할 수 있어요.</p>
+    <section class="globe-wrap" aria-label="인터랙티브 세계 여행 지도">
+      <p class="guide">드래그하여 회전 · 휠로 확대, 축소 </p>
+      <div id="globe"><div class="loading">지구본을 불러오는 중입니다…</div></div>
+      <div class="region-controls">
+        <button type="button" data-region="asia">아시아 보기</button>
+        <button type="button" data-region="oceania">오세아니아 보기</button>
+      </div>
+      <article class="info" id="travel-info" aria-live="polite"></article>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/globe.gl@2.46.2"></script>
+  <script src="../js/travel-country-data.js"></script>
+  <script src="../js/world-data.js"></script>
+  <script>
+    const regions = {
+      asia: { title: "아시아 여행", subtitle: "도시와 전통을 함께", text: "감각적인 골목, 고즈넉한 사찰과 맛있는 식사를 한 번에 즐길 수 있는 다채로운 여행지입니다.", tags: ["봄·가을 추천", "미식", "대중교통 여행"], tip: "여행 팁: 현지 교통카드와 기본 회화 표현을 미리 준비해 보세요.", view: { lat: 32, lng: 108, altitude: 1.8 } },
+      oceania: { title: "오세아니아 여행", subtitle: "바다 곁의 도시 휴식", text: "푸른 해변과 웅장한 자연, 여유로운 도시 문화가 조화를 이루는 여행지입니다.", tags: ["9~11월 추천", "해변", "자연 탐험"], tip: "여행 팁: 계절이 한국과 반대일 수 있으니 출발 전 날씨를 확인하세요.", view: { lat: -25, lng: 138, altitude: 1.8 } }
+    };
+    const countryPlans = {
+      "Japan": { korean: "일본", title: "도쿄 3일 미식 산책", season: "3~5월 · 10~11월", budget: "1일 약 13~20만 원", transport: "스이카·파스모 + JR·도쿄 메트로", route: ["시부야역 하치코 출구 → 스크램블 교차로 → 메이지 신궁·하라주쿠 다케시타도리. 저녁은 신주쿠 골든가이 주변", "아사쿠사 센소지·나카미세 상점가를 오전에 둘러보고, 오후 우에노 공원·도쿄국립박물관·아메요코 시장", "도쿄역 마루노우치 산책 후 긴자 백화점·가부키자 주변. 저녁 유라쿠초 고가 아래 이자카야", "4~5일이면 오모테산도 건축 산책과 아키하바라 전자상가를 추가", "7일 일정은 가마쿠라 또는 하코네 당일치기로 확장"], tip: "GO TOKYO의 3일 동선을 참고해 동쪽(아사쿠사·우에노)과 서쪽(시부야·하라주쿠)을 날짜별로 묶었습니다. IC카드는 지하철·편의점 결제에 사용할 수 있습니다.", source: "https://www.gotokyo.org/en/story/walks-and-tours/best-of-tokyo/index.html" },
+      "South Korea": { korean: "대한민국", title: "서울 3일 전통과 로컬 여행", season: "3~5월 · 9~11월", budget: "1일 약 8~15만 원", transport: "티머니·지하철, 도보 구간 병행", route: ["경복궁 개장 시간에 맞춰 관람 → 북촌 한옥마을 골목 산책 → 서촌 통인시장 점심. 주거지에서는 조용히 걷기", "성수역에서 서울숲까지 도보 이동, 편집숍·카페를 탐방하고 서울숲에서 휴식", "광화문·청계천 산책 후 해질 무렵 한강공원으로 이동해 강변 야경 감상", "4~5일이면 창덕궁·익선동과 남산 코스를 추가", "7일 일정은 홍대·망원시장, 국립중앙박물관, 북악산 산책 중 취향에 맞게 선택"], tip: "북촌은 실제 주민 거주지이므로 정숙하게 방문하세요. 경복궁·박물관은 휴관일과 예약 여부를 공식 페이지에서 출발 전에 확인하세요.", source: "https://english.visitseoul.net/attractions/bukchon-hanok-village/ENP000261" },
+      "Thailand": { korean: "태국", title: "방콕 3일 사원과 강변 여행", season: "11~2월", budget: "1일 약 7~13만 원", transport: "BTS·MRT + 짜오프라야 익스프레스 보트", route: ["오전 왕궁·에메랄드 사원 관람 → 도보로 왓 포 와불상 관람 → 타 티엔 선착장 강변 식사", "왓 아룬을 오전에 둘러본 뒤 강 건너 이동, 오후 아이콘시암과 사톤 피어 주변", "주말이면 짜뚜짝 시장, 평일이면 차이나타운 야오와랏 저녁 먹거리와 강변 야경", "4~5일이면 아유타야 유적 당일 투어를 추가", "7일 일정은 수상시장 또는 현지 쿠킹 클래스와 휴식일을 포함"], tip: "왕궁·사원에는 어깨와 무릎을 가리는 복장이 필요합니다. 낮 더위와 교통 체증을 고려해 사원은 오전, 실내 일정은 한낮에 배치하세요.", source: "https://www.tourismthailand.org/Destinations/Provinces/Bangkok/219" },
+      "Vietnam": { korean: "베트남", title: "하노이 3일 구시가지 산책", season: "10~4월", budget: "1일 약 6~11만 원", transport: "구시가지 도보·그랩 차량", route: ["호안끼엠 호수와 응옥선 사당 → 36거리 구시가지 골목 → 동쑤언 시장에서 현지 간식", "문묘·국자감 오전 관람 → 호찌민 묘소 주변 바딘 광장 → 서호 카페에서 휴식", "탕롱 황성 또는 베트남 여성박물관 → 저녁 구시가지 야시장(운영 요일 확인)", "4~5일이면 하롱베이 또는 닌빈 1박 투어를 추가", "7일 일정은 하노이 3일과 하롱베이·닌빈 각 1~2일로 분배"], tip: "구시가지는 걸어서 둘러보기 좋지만 보도에 오토바이가 주차된 곳이 많습니다. 도로는 급히 뛰지 말고 일정한 속도로 건너세요.", source: "https://vietnam.travel/things-to-do/explore-old-quarter-your-way" },
+      "Singapore": { korean: "싱가포르", title: "싱가포르 3일 정원과 문화", season: "연중", budget: "1일 약 16~25만 원", transport: "MRT·이지링크 또는 비접촉 결제", route: ["마리나베이 산책 → 멀라이언 파크 → 가든스 바이 더 베이 플라워돔·클라우드 포레스트. 저녁 슈퍼트리 조명 시간 확인", "차이나타운 헤리티지 센터·불아사·스리 마리암만 사원 → 맥스웰 또는 차이나타운 콤플렉스 호커센터", "캄퐁글람 술탄 모스크와 하지레인 → 싱가포르 리버 보트 투어 또는 주얼 창이", "4~5일이면 센토사 해변과 유니버설 스튜디오를 하루로 배정", "7일 일정은 리틀인디아·국립박물관·나이트 사파리를 추가"], tip: "가든스 바이 더 베이 온실은 별도 입장권이 필요하며 휴관일이 있을 수 있습니다. 야외와 냉방 강한 실내를 오가므로 얇은 겉옷을 준비하세요.", source: "https://www.visitsingapore.com/travel-tips/travelling-to-singapore/itineraries/singapore-city-tour-guide/" },
+      "Indonesia": { korean: "인도네시아", title: "발리 4일 우붓과 남부 해안", season: "4~10월", budget: "1일 약 9~17만 원", transport: "지역 간 기사 포함 차량·지역 내 도보", route: ["우붓 중심 숙소 체크인 → 우붓 왕궁·시장 → 캄푸한 능선 산책로(한낮 더위 전 방문)", "뜨갈랄랑 계단식 논 이른 아침 → 티르타 엠풀 사원 또는 미술관 → 우붓 전통 공연", "남부로 이동해 스미냑 해변·카페와 해변 일몰. 이동 정체를 고려해 일정을 적게 배치", "울루와뚜 절벽 사원에서 일몰과 케착 공연 관람, 일정 종료 후 숙소 복귀", "5~7일이면 우붓을 2박 이상 두고 사누르·누사두아 또는 누사 페니다를 추가"], tip: "우붓과 울루와뚜는 도로 정체 시 1.5~2시간 걸릴 수 있어 같은 날 왕복 일정을 빽빽하게 잡지 마세요. 사원 방문 시 사롱을 착용하고 원숭이 근처에서 소지품을 단단히 챙기세요.", source: "https://www.indonesia.travel/id/en/destination/bali-nusa-tenggara/bali" },
+      "Philippines": { korean: "필리핀", title: "세부 4일 막탄 바다 여행", season: "12~5월", budget: "1일 약 9~16만 원", transport: "공항·리조트 픽업 사전 예약, 시내 그랩", route: ["막탄 공항 도착 → 리조트 체크인 → 막탄 뉴타운·해변에서 휴식", "날씨와 바다 상태를 확인하고 막탄 출발 호핑투어·스노클링. 산호 보호 수칙 준수", "세부 시티로 이동해 산페드로 요새·마젤란의 십자가·산토니뇨 성당을 묶어 관람", "막탄 해산물 점심과 해변 휴식 후 공항 이동", "5~7일이면 모알보알·보홀을 추가하되 섬 간 이동일을 따로 확보"], tip: "호핑투어는 파도와 기상에 따라 취소될 수 있으니 첫날 직후보다 일정 중간에 배치하세요. 보트 투어에는 방수 가방과 여벌 옷이 유용합니다.", source: "https://www.tourism.gov.ph/article/island-hopping-0-21/" },
+      "China": { korean: "중국", title: "상하이 3일 근대와 옛 거리", season: "3~5월 · 10~11월", budget: "1일 약 10~18만 원", transport: "상하이 지하철·알리페이 교통 결제", route: ["해질 무렵 와이탄 1.5km 강변 산책 → 황푸강 건너 루자쭈이 스카이라인 전망", "예원 정원과 성황묘 상권 오전 방문 → 인민광장·상하이박물관(예약·휴관 확인)", "프랑스 조계지 우캉루·안푸루 가로수길과 카페 → 신톈디 저녁 산책", "4~5일이면 상하이 디즈니 또는 수향마을 주자자오를 하루 추가", "7일 일정은 박물관·미술관과 푸둥 강변을 여유 있게 추가"], tip: "와이탄과 푸둥 전망은 강 양쪽에서 모두 볼 수 있습니다. 모바일 결제와 지도 앱은 출국 전에 설정하고, 명소 입장 예약 조건을 확인하세요.", source: "https://www.meet-in-shanghai.net/en/huangpu-district/the-bund-648313/" },
+      "India": { korean: "인도", title: "델리·아그라 4일 무굴 유산", season: "10~3월", budget: "1일 약 8~15만 원", transport: "도시 내 차량 호출·델리 메트로, 도시 간 사전 예약 열차", route: ["뉴델리 도착·휴식 후 인디아 게이트와 코넛 플레이스, 이동은 공식 택시·앱 이용", "올드델리 레드 포트 → 자마 마스지드 → 찬드니 초크 인력거·음식 골목", "이른 아침 예약 교통편으로 아그라 이동 → 타지마할 관람 → 야무나강 건너 메흐타브 바그 일몰", "아그라 요새 관람 후 델리 복귀 또는 아그라 숙박", "5~7일이면 후마윤 묘·꾸뜹 미나르와 자이푸르를 추가해 골든 트라이앵글 구성"], tip: "타지마할은 금요일 휴관이며 입장 시간과 티켓 조건을 공식 사이트에서 확인하세요. 이동 시간을 넉넉히 잡고 생수 밀봉과 공식 가이드 여부를 확인하세요.", source: "https://www.incredibleindia.gov.in/en/trips/trip-listing/48-hours-in-delhi" },
+      "Australia": { korean: "호주", title: "시드니 4일 항구와 해안", season: "9~11월 · 3~5월", budget: "1일 약 20~30만 원", transport: "오팔 카드 또는 비접촉 결제·페리", route: ["서큘러키 → 오페라하우스 외관·투어 → 록스 골목과 하버브리지 보행로", "본다이 비치 오전 산책 → 본다이-쿠지 해안 산책로 중 체력에 맞는 구간 → 쿠지에서 대중교통 복귀", "페리로 타롱가 동물원 또는 맨리 이동, 항구 풍경 감상 후 달링하버 저녁", "블루마운틴 당일 투어: 시드니 출발 → 카툼바·세자매봉 전망 → 저녁 복귀", "5~7일이면 블루마운틴 1박과 시드니 미술관·식물원 일정을 분리"], tip: "본다이-쿠지 전 구간은 약 6km 해안 산책로라 편한 신발과 물을 준비하세요. 블루마운틴은 왕복 이동이 길어 하루 전체를 비우는 편이 좋습니다.", source: "https://www.sydney.com/articles/3-day-itinerary-in-sydney-for-first-time-visitors" },
+      "New Zealand": { korean: "뉴질랜드", title: "퀸스타운 5일 호수와 피오르드", season: "12~2월 · 3~5월", budget: "1일 약 22~33만 원", transport: "퀸스타운 시내 도보·밀포드사운드 투어 버스", route: ["퀸스타운 도착 → 와카티푸 호수변·시내 산책 → 숙소에서 휴식", "스카이라인 곤돌라 전망 또는 선택형 야외 활동 → 저녁 호숫가", "퀸스타운에서 테아나우 경유 밀포드사운드 이동, 피오르드 크루즈 후 테아나우 숙박 권장", "테아나우에서 퀸스타운 복귀. 자가 운전 시 밀포드 로드 정차·날씨·겨울 도로 상태 확인", "애로타운 역사 거리와 깁스턴 밸리 와이너리 또는 퀸스타운 트레일", "6~7일이면 루트번 트랙 일부 또는 와나카를 추가하고 이동일 확보"], tip: "밀포드사운드는 퀸스타운에서 편도 운전만 약 4시간 30분이 걸릴 수 있습니다. 당일 왕복은 투어 버스를 권장하며 겨울에는 도로·기상 상태와 체인 규정을 확인하세요.", source: "https://www.newzealand.com/us/feature/queenstown-to-milford-sound-itinerary/" },
+      "Fiji": { korean: "피지", title: "피지 4일 수바 문화와 해변", season: "5~10월", budget: "1일 약 18~28만 원", transport: "나우소리 공항 차량·도시 택시·섬 이동 보트", route: ["수바 도착 → 써스턴 가든과 피지 박물관에서 섬의 역사와 문화 이해", "수바 시립시장 이른 방문 → 수바 수공예 센터·항구 주변 산책", "날씨를 확인해 리조트 해변 또는 사전 예약 섬 보트 투어로 스노클링", "마을 문화 체험 또는 여유로운 해변 휴식 후 출국", "5~7일이면 나디·데나라우 또는 마마누카 제도 숙박을 더해 이동일 확보"], tip: "피지 박물관과 수바 시장은 휴무·운영 시간이 다를 수 있으니 방문 전 확인하세요. 섬 보트는 날씨에 따라 일정이 바뀔 수 있어 출국 당일에 배편을 잡지 마세요.", source: "https://www.fiji.travel/places-to-go/suva-and-surrounds/locations/top-things-to-do-in-suva" }
+    };
+    const asia = new Set(["Afghanistan", "Armenia", "Azerbaijan", "Bahrain", "Bangladesh", "Bhutan", "Brunei", "Cambodia", "China", "Cyprus", "Georgia", "Hong Kong", "India", "Indonesia", "Iran", "Iraq", "Israel", "Japan", "Jordan", "Kazakhstan", "Kuwait", "Kyrgyzstan", "Laos", "Lebanon", "Macau", "Malaysia", "Maldives", "Mongolia", "Myanmar", "Nepal", "Oman", "Pakistan", "Palestine", "Philippines", "Qatar", "Russia", "Saudi Arabia", "Singapore", "South Korea", "Sri Lanka", "Syria", "Taiwan", "Tajikistan", "Thailand", "Timor-Leste", "East Timor", "Turkey", "Türkiye", "Turkmenistan", "United Arab Emirates", "Uzbekistan", "Vietnam", "Yemen"]);
+    const oceania = new Set(["Australia", "New Zealand", "Papua New Guinea", "Fiji", "Solomon Islands", "Vanuatu", "Samoa", "Tonga", "Kiribati", "Micronesia", "Palau", "Marshall Islands"]);
+    let globe;
+    let selectedCountry = "Japan";
+    let selectedFeature = null;
+    let selectedDays = 3;
+    const countryFacts = {
+      "Japan": { capital: "도쿄", currency: "일본 엔 (JPY)", language: "일본어", location: { lat: 36.2, lng: 138.3, altitude: 1.42 } },
+      "South Korea": { capital: "서울", currency: "대한민국 원 (KRW)", language: "한국어", location: { lat: 36.5, lng: 127.8, altitude: 1.42 } },
+      "Thailand": { capital: "방콕", currency: "태국 바트 (THB)", language: "태국어", location: { lat: 15.9, lng: 100.9, altitude: 1.42 } },
+      "Vietnam": { capital: "하노이", currency: "베트남 동 (VND)", language: "베트남어", location: { lat: 16.1, lng: 108.3, altitude: 1.42 } },
+      "Singapore": { capital: "싱가포르", currency: "싱가포르 달러 (SGD)", language: "영어 · 중국어", location: { lat: 1.35, lng: 103.82, altitude: 1.7 } },
+      "Indonesia": { capital: "자카르타", currency: "인도네시아 루피아 (IDR)", language: "인도네시아어", location: { lat: -2.5, lng: 118, altitude: 1.42 } },
+      "Philippines": { capital: "마닐라", currency: "필리핀 페소 (PHP)", language: "필리핀어 · 영어", location: { lat: 12.9, lng: 121.8, altitude: 1.42 } },
+      "China": { capital: "베이징", currency: "중국 위안 (CNY)", language: "중국어", location: { lat: 35.9, lng: 104.2, altitude: 1.42 } },
+      "India": { capital: "뉴델리", currency: "인도 루피 (INR)", language: "힌디어 · 영어", location: { lat: 20.6, lng: 78.9, altitude: 1.42 } },
+      "Australia": { capital: "캔버라", currency: "호주 달러 (AUD)", language: "영어", location: { lat: -25.3, lng: 133.8, altitude: 1.42 } },
+      "New Zealand": { capital: "웰링턴", currency: "뉴질랜드 달러 (NZD)", language: "영어 · 마오리어", location: { lat: -41.3, lng: 174.8, altitude: 1.65 } },
+      "Fiji": { capital: "수바", currency: "피지 달러 (FJD)", language: "영어 · 피지어", location: { lat: -17.7, lng: 178.1, altitude: 1.7 } }
+    };
+
+    function countryName(feature) { return feature.properties.name || feature.properties.NAME || ""; }
+    function profileKey(name) { return name === "East Timor" ? "Timor-Leste" : name === "Türkiye" ? "Turkey" : name; }
+    Object.keys(window.BYTRIP_COUNTRIES || {}).forEach(function (name) {
+      const profile = window.BYTRIP_COUNTRIES[name];
+      countryFacts[name] = countryFacts[name] || { capital: profile[1], currency: profile[2], language: profile[3], location: { lat: profile[9], lng: profile[10], altitude: 1.45 } };
+      countryPlans[name] = countryPlans[name] || { korean: profile[0], title: profile[6], season: profile[4], transport: profile[5], route: profile[7], tip: profile[8] };
+    });
+    const lowCostCountries = new Set(["Afghanistan", "Bangladesh", "Cambodia", "India", "Indonesia", "Laos", "Myanmar", "Nepal", "Pakistan", "Sri Lanka", "Timor-Leste", "Vietnam", "Mongolia", "Kyrgyzstan", "Tajikistan", "Uzbekistan"]);
+    const highCostCountries = new Set(["Bahrain", "Cyprus", "Hong Kong", "Israel", "Kuwait", "Macau", "Maldives", "Oman", "Qatar", "Singapore", "United Arab Emirates", "Palau", "Fiji", "New Zealand"]);
+    function regionOf(feature) { const name = countryName(feature); return asia.has(name) || asia.has(profileKey(name)) ? "asia" : oceania.has(name) ? "oceania" : null; }
+    function countryCenter(feature) {
+      const points = [];
+      (function collect(value) { if (Array.isArray(value)) { if (typeof value[0] === "number") points.push(value); else value.forEach(collect); } })(feature.geometry && feature.geometry.coordinates);
+      if (!points.length) return null;
+      return { lat: points.reduce((total, point) => total + point[1], 0) / points.length, lng: points.reduce((total, point) => total + point[0], 0) / points.length, altitude: 1.55 };
+    }
+    function planFor(name, region, facts) {
+      const key = profileKey(name);
+      const original = countryPlans[key] || countryPlans[name];
+      const capital = facts && facts.capital || name;
+      const plan = original ? Object.assign({}, original, { route: original.route.slice() }) : { korean: name, title: capital + " 중심 여행", route: [capital + " 도착 후 중심가와 숙소 주변 둘러보기", "대표 문화 명소와 현지 식사 경험", "시장·전망대 또는 자연 명소 방문"], tip: "입국 요건, 환전 방법, 현지 날씨를 출발 전 다시 확인하세요." };
+      plan.budget = plan.budget || (lowCostCountries.has(key) ? "현지 식사·교통 1일 약 5~10만 원" : highCostCountries.has(key) ? "현지 식사·교통 1일 약 12~25만 원" : "현지 식사·교통 1일 약 8~16만 원") + " (숙박·항공 제외)";
+      const additions = ["관심 지역 자유 탐방과 현지 카페 방문", "근교 명소 또는 체험 프로그램 추가", "여유로운 브런치와 기념품 쇼핑", "숙소 주변 휴식과 여행 기록 정리"];
+      while (plan.route.length < selectedDays) plan.route.push(additions[plan.route.length % additions.length]);
+      plan.route = plan.route.slice(0, selectedDays);
+      plan.title = plan.title.replace(/\d+일/, selectedDays + "일");
+      return plan;
+    }
+    function renderCountryInfo() {
+      if (!selectedFeature) return;
+      const name = countryName(selectedFeature);
+      const region = regionOf(selectedFeature);
+      const facts = countryFacts[profileKey(name)];
+      const plan = planFor(name, region, facts);
+      const saved = JSON.parse(localStorage.getItem("bytrip-wishlist") || "[]").includes(name);
+      const factsHtml = '<div class="plan-grid"><div><span>수도</span><strong>' + (facts && facts.capital || "현지 주요 도시") + '</strong></div><div><span>통화</span><strong>' + (facts && facts.currency || "현지 통화") + '</strong></div><div><span>언어</span><strong>' + (facts && facts.language || "현지 언어") + '</strong></div><div><span>추천 시기</span><strong>' + (plan.season || "현지 계절 확인") + '</strong></div><div><span>예산 참고</span><strong>' + (plan.budget || "항공·숙소 제외") + '</strong></div><div><span>현지 이동</span><strong>' + (plan.transport || "대중교통·도보") + '</strong></div></div>';
+      const sourceHtml = plan.source ? '<p class="source-link"><a href="' + plan.source + '" target="_blank" rel="noopener noreferrer">공식 관광 안내에서 더 알아보기 ↗</a></p>' : '';
+      document.getElementById("travel-info").innerHTML = '<p class="eyebrow">' + regions[region].title + '</p><h2>' + plan.title + '</h2><p class="country-name">' + plan.korean + '</p>' + factsHtml + '<p class="itinerary-label">추천 일정 · ' + selectedDays + '일</p><ul class="itinerary">' + plan.route.map((day, index) => '<li><strong>DAY ' + (index + 1) + '</strong><span>' + day + '</span></li>').join("") + '</ul><p class="tip">' + plan.tip + '</p>' + sourceHtml + '<div class="planner-tools"><span>일정 길이 선택</span><button type="button" data-days="3" class="' + (selectedDays === 3 ? "is-selected" : "") + '">3일</button><button type="button" data-days="5" class="' + (selectedDays === 5 ? "is-selected" : "") + '">5일</button><button type="button" data-days="7" class="' + (selectedDays === 7 ? "is-selected" : "") + '">7일</button><button type="button" class="wish-button" data-wishlist="true">' + (saved ? "★ 저장됨" : "☆ 위시리스트") + '</button></div>';
+    }
+    function loadFacts(name) {
+      if (!countryFacts[name]) countryFacts[name] = { capital: "현지 주요 도시", currency: "현지 통화", language: "현지 언어" };
+      renderCountryInfo();
+      if (countryFacts[name].location && globe) globe.pointOfView(countryFacts[name].location, 700);
+    }
+    function showCountry(feature) {
+      const name = countryName(feature);
+      const regionId = regionOf(feature);
+      if (!regionId) return;
+      const planKey = profileKey(name);
+      if (selectedCountry !== name) selectedDays = Math.min(countryPlans[planKey] ? countryPlans[planKey].route.length : 3, 5);
+      selectedCountry = name;
+      selectedFeature = feature;
+      renderCountryInfo();
+      const location = countryFacts[planKey] && countryFacts[planKey].location || countryCenter(feature);
+      if (location && globe) globe.pointOfView(location, 700);
+      loadFacts(name);
+    }
+    function showRegion(id) { if (globe) globe.pointOfView(regions[id].view, 900); }
+    function selectCountry(name) {
+      const feature = window.worldCountries && window.worldCountries.find(item => countryName(item) === name);
+      showCountry(feature || { properties: { name: name } });
+    }
+    function startGlobe(countries) {
+      document.getElementById("globe").innerHTML = "";
+      globe = Globe()(document.getElementById("globe"))
+        .globeImageUrl("https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg")
+        .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
+        .backgroundImageUrl("https://unpkg.com/three-globe/example/img/night-sky.png")
+        .polygonsData(countries.features)
+        .polygonAltitude(feature => regionOf(feature) ? 0.018 : 0.006)
+        .polygonCapColor(feature => countryName(feature) === selectedCountry ? "rgba(255, 209, 102, .92)" : regionOf(feature) === "asia" ? "rgba(98, 208, 190, .74)" : regionOf(feature) === "oceania" ? "rgba(116, 183, 255, .78)" : "rgba(140, 165, 174, .22)")
+        .polygonSideColor(() => "rgba(15, 70, 86, .6)")
+        .polygonStrokeColor(() => "rgba(215, 249, 248, .42)")
+        .onPolygonHover(feature => {
+          document.getElementById("globe").style.cursor = feature && regionOf(feature) ? "pointer" : "grab";
+        })
+        .onPolygonClick(feature => {
+          if (feature && regionOf(feature)) { showCountry(feature); globe.polygonsData(countries.features); }
+        });
+      window.travelGlobe = globe;
+      window.worldCountries = countries.features;
+      globe.controls().autoRotate = false;
+      globe.controls().enableRotate = true;
+      globe.controls().enableZoom = true;
+      globe.controls().enablePan = false;
+      globe.controls().enableDamping = true;
+      globe.controls().rotateSpeed = .8;
+      globe.pointOfView(regions.asia.view, 0);
+      const selected = countries.features.find(feature => countryName(feature) === selectedCountry);
+      if (selected) showCountry(selected);
+    }
+    function showLoadError() {
+      document.getElementById("globe").innerHTML = '<div class="loading">지구본을 불러오지 못했습니다.<br>인터넷 연결을 확인한 뒤 새로고침해 주세요.</div>';
+    }
+
+    fetch("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+      .then(response => {
+        if (!response.ok) throw new Error("국가 경계 데이터를 불러오지 못했습니다.");
+        return response.json();
+      })
+      .then(startGlobe)
+      .catch(() => {
+        if (window.WORLD_GEOJSON && window.WORLD_GEOJSON.features) startGlobe(window.WORLD_GEOJSON);
+        else showLoadError();
+      });
+    document.querySelectorAll("[data-region]").forEach(button => button.addEventListener("click", () => showRegion(button.dataset.region)));
+    document.getElementById("travel-info").addEventListener("click", event => {
+      const dayButton = event.target.closest("[data-days]");
+      if (dayButton) { selectedDays = Number(dayButton.dataset.days); renderCountryInfo(); return; }
+      if (event.target.closest("[data-wishlist]")) {
+        const saved = JSON.parse(localStorage.getItem("bytrip-wishlist") || "[]");
+        const index = saved.indexOf(selectedCountry);
+        if (index === -1) saved.push(selectedCountry); else saved.splice(index, 1);
+        localStorage.setItem("bytrip-wishlist", JSON.stringify(saved));
+        renderCountryInfo();
+      }
+    });
+    selectCountry("Japan");
+  </script>
+</body>
+</html>

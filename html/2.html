@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BYTRIP | 여행지 맛집 추천</title>
+  <link rel="icon" type="image/png" href="../이미지 폴더/mark.png">
+  <link rel="stylesheet" href="../css/restaurant-recommendations.css">
+</head>
+<body>
+  <header>
+    <a class="logo" href="travel-menu.html">
+      <img class="logo-mark" src="../이미지 폴더/mark.png" alt="">
+      <span>BYTRIP</span>
+    </a>
+    <nav aria-label="주 메뉴">
+      <a href="travel-menu.html#exchange">현재 환율</a>
+      <a href="2.html" aria-current="page">맛집 추천</a>
+    </nav>
+    <a class="back-link" href="travel-menu.html">메인으로 돌아가기</a>
+  </header>
+
+  <main>
+    <section class="page-intro">
+      <p class="eyebrow">BYTRIP FOOD GUIDE</p>
+      <h1>여행지 맛집 추천</h1>
+      <p>환율 계산기에서 참고한 여행지별 맛집을 골라보세요.</p>
+      <label class="destination-filter" for="destination">
+        여행지 선택
+        <select id="destination">
+          <option value="all">전체 여행지</option>
+        </select>
+      </label>
+    </section>
+
+    <div id="restaurant-list" class="restaurant-list" aria-live="polite"></div>
+  </main>
+
+  <script src="../js/restaurant-recommendations.js"></script>
+</body>
+</html>

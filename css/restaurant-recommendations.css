@@ -1,0 +1,140 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #f6f5ef;
+  color: #20352f;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 15px 8%;
+  background: #fff;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  color: #20352f;
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.logo-mark { width: 32px; height: 32px; }
+
+nav { display: flex; gap: 20px; }
+
+nav a, .back-link {
+  color: #20352f;
+  text-decoration: none;
+}
+
+nav a[aria-current="page"] {
+  color: #5267cb;
+  font-weight: bold;
+}
+
+.page-intro {
+  padding: 54px 8% 36px;
+  background: #fff;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #7181d4;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+h1 {
+  margin: 0;
+  color: #20352f;
+  font-size: 38px;
+}
+
+.page-intro > p:not(.eyebrow) {
+  margin: 12px 0 24px;
+  color: #62716b;
+}
+
+.destination-filter {
+  display: inline-grid;
+  gap: 8px;
+  font-weight: bold;
+}
+
+.destination-filter select {
+  min-width: 260px;
+  padding: 10px;
+  border: 1px solid #d7ddd7;
+  border-radius: 6px;
+  background: #fff;
+  color: #20352f;
+  font-size: 15px;
+}
+
+.restaurant-list {
+  display: grid;
+  gap: 30px;
+  padding: 36px 8% 60px;
+}
+
+.destination-section h2 {
+  margin: 0 0 14px;
+  color: #5267cb;
+  font-size: 24px;
+}
+
+.destination-section h2 span {
+  margin-left: 8px;
+  color: #75817b;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.restaurant-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.restaurant-card {
+  min-height: 170px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(32 53 47 / 7%);
+}
+
+.restaurant-card h3 {
+  margin: 0 0 12px;
+  font-size: 19px;
+}
+
+.restaurant-card p {
+  margin: 7px 0 0;
+  color: #62716b;
+  line-height: 1.5;
+}
+
+.restaurant-card .specialty {
+  color: #20352f;
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  header { flex-wrap: wrap; gap: 14px; padding: 14px 5%; }
+  .logo { width: 100%; }
+  .back-link { margin-left: auto; }
+  .page-intro { padding: 38px 5% 28px; }
+  h1 { font-size: 32px; }
+  .restaurant-list { padding: 28px 5% 44px; }
+  .restaurant-cards { grid-template-columns: 1fr; }
+}
