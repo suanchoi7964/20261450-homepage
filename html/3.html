@@ -74,10 +74,32 @@
     </section>
   </main>
 
+  <script src="../js/language-state.js"></script>
   <script src="https://unpkg.com/globe.gl@2.46.2"></script>
   <script src="../js/travel-country-data.js"></script>
   <script src="../js/world-data.js"></script>
   <script>
+    const travelLanguage = ["ko", "en", "zh", "ja"].indexOf(localStorage.getItem("bytrip-language")) === -1
+      ? "ko"
+      : localStorage.getItem("bytrip-language");
+    const travelCopy = {
+      ko: { title: "BYTRIP | 여행 떠나기", home: "← 메인으로 돌아가기", eyebrow: "만족스러운 여행, 떠날 준비 되셨나요?", heading: "지구본을 돌려<br>다음 여행지를 찾아보세요.", intro: "마우스로 지구본을 드래그해 돌리고, 휠로 확대할 수 있습니다. 현재는 아시아와 오세아니아의 여행 정보만 선택할 수 있어요.", map: "인터랙티브 세계 여행 지도", guide: "드래그하여 회전 · 휠로 확대, 축소", asiaButton: "아시아 보기", oceaniaButton: "오세아니아 보기", asia: "아시아 여행", oceania: "오세아니아 여행", capital: "수도", currency: "통화", language: "언어", season: "추천 시기", budget: "예산 참고", transport: "현지 이동", itinerary: "추천 일정", days: "일정 길이 선택", wishlist: "☆ 위시리스트", saved: "★ 저장됨", source: "공식 관광 안내에서 더 알아보기 ↗", loading: "지구본을 불러오는 중입니다…", loadError: "지구본을 불러오지 못했습니다.<br>인터넷 연결을 확인한 뒤 새로고침해 주세요.", networkError: "국가 경계 데이터를 불러오지 못했습니다.", regions: { asia: "아시아 여행", oceania: "오세아니아 여행" } },
+      en: { title: "BYTRIP | Explore destinations", home: "← Back to main menu", eyebrow: "Ready to plan your next adventure?", heading: "Spin the globe<br>and find your next destination.", intro: "Drag to rotate the globe and use the scroll wheel to zoom. Travel information is currently available for Asia and Oceania.", map: "Interactive world travel map", guide: "Drag to rotate · Scroll to zoom", asiaButton: "Explore Asia", oceaniaButton: "Explore Oceania", asia: "Asia travel", oceania: "Oceania travel", capital: "Capital", currency: "Currency", language: "Language", season: "Best time to visit", budget: "Estimated budget", transport: "Getting around", itinerary: "Suggested itinerary", days: "Choose trip length", wishlist: "☆ Wishlist", saved: "★ Saved", source: "Learn more from the official tourism guide ↗", loading: "Loading the globe…", loadError: "Could not load the globe.<br>Check your internet connection and refresh.", networkError: "Could not load country boundaries.", regions: { asia: "Asia travel", oceania: "Oceania travel" } },
+      zh: { title: "BYTRIP | 探索目的地", home: "← 返回主页", eyebrow: "准备好开启下一段旅程了吗？", heading: "转动地球仪，<br>寻找下一个目的地。", intro: "拖动地球仪进行旋转，使用滚轮缩放。目前仅提供亚洲和大洋洲的旅行信息。", map: "互动世界旅行地图", guide: "拖动旋转 · 滚轮缩放", asiaButton: "探索亚洲", oceaniaButton: "探索大洋洲", asia: "亚洲旅行", oceania: "大洋洲旅行", capital: "首都", currency: "货币", language: "语言", season: "推荐季节", budget: "预算参考", transport: "当地交通", itinerary: "推荐行程", days: "选择行程天数", wishlist: "☆ 愿望清单", saved: "★ 已收藏", source: "查看官方旅游指南 ↗", loading: "正在加载地球仪…", loadError: "无法加载地球仪。<br>请检查网络连接后刷新页面。", networkError: "无法加载国家边界数据。", regions: { asia: "亚洲旅行", oceania: "大洋洲旅行" } },
+      ja: { title: "BYTRIP | 旅先を探す", home: "← メインメニューに戻る", eyebrow: "次の旅に出かける準備はできましたか？", heading: "地球儀を回して<br>次の旅先を見つけましょう。", intro: "ドラッグして回転、スクロールで拡大・縮小できます。現在はアジアとオセアニアの旅行情報を選択できます。", map: "インタラクティブ世界旅行マップ", guide: "ドラッグで回転 · スクロールで拡大", asiaButton: "アジアを見る", oceaniaButton: "オセアニアを見る", asia: "アジア旅行", oceania: "オセアニア旅行", capital: "首都", currency: "通貨", language: "言語", season: "おすすめの時期", budget: "予算の目安", transport: "現地の移動", itinerary: "おすすめの日程", days: "旅行日数を選択", wishlist: "☆ ウィッシュリスト", saved: "★ 保存済み", source: "公式観光ガイドで詳しく見る ↗", loading: "地球儀を読み込み中…", loadError: "地球儀を読み込めませんでした。<br>インターネット接続を確認して再読み込みしてください。", networkError: "国境データを読み込めませんでした。", regions: { asia: "アジア旅行", oceania: "オセアニア旅行" } }
+    }[travelLanguage];
+    document.documentElement.lang = travelLanguage;
+    document.title = travelCopy.title;
+    document.querySelector(".back-link").textContent = travelCopy.home;
+    document.querySelector("main > .eyebrow").textContent = travelCopy.eyebrow;
+    document.querySelector("main > h1").innerHTML = travelCopy.heading;
+    document.querySelector("main > .intro").textContent = travelCopy.intro;
+    document.querySelector(".globe-wrap").setAttribute("aria-label", travelCopy.map);
+    document.querySelector(".guide").textContent = travelCopy.guide;
+    document.querySelector('[data-region="asia"]').textContent = travelCopy.asiaButton;
+    document.querySelector('[data-region="oceania"]').textContent = travelCopy.oceaniaButton;
+    document.querySelector(".loading").textContent = travelCopy.loading;
+
     const regions = {
       asia: { title: "아시아 여행", subtitle: "도시와 전통을 함께", text: "감각적인 골목, 고즈넉한 사찰과 맛있는 식사를 한 번에 즐길 수 있는 다채로운 여행지입니다.", tags: ["봄·가을 추천", "미식", "대중교통 여행"], tip: "여행 팁: 현지 교통카드와 기본 회화 표현을 미리 준비해 보세요.", view: { lat: 32, lng: 108, altitude: 1.8 } },
       oceania: { title: "오세아니아 여행", subtitle: "바다 곁의 도시 휴식", text: "푸른 해변과 웅장한 자연, 여유로운 도시 문화가 조화를 이루는 여행지입니다.", tags: ["9~11월 추천", "해변", "자연 탐험"], tip: "여행 팁: 계절이 한국과 반대일 수 있으니 출발 전 날씨를 확인하세요.", view: { lat: -25, lng: 138, altitude: 1.8 } }
@@ -152,9 +174,10 @@
       const facts = countryFacts[profileKey(name)];
       const plan = planFor(name, region, facts);
       const saved = JSON.parse(localStorage.getItem("bytrip-wishlist") || "[]").includes(name);
-      const factsHtml = '<div class="plan-grid"><div><span>수도</span><strong>' + (facts && facts.capital || "현지 주요 도시") + '</strong></div><div><span>통화</span><strong>' + (facts && facts.currency || "현지 통화") + '</strong></div><div><span>언어</span><strong>' + (facts && facts.language || "현지 언어") + '</strong></div><div><span>추천 시기</span><strong>' + (plan.season || "현지 계절 확인") + '</strong></div><div><span>예산 참고</span><strong>' + (plan.budget || "항공·숙소 제외") + '</strong></div><div><span>현지 이동</span><strong>' + (plan.transport || "대중교통·도보") + '</strong></div></div>';
-      const sourceHtml = plan.source ? '<p class="source-link"><a href="' + plan.source + '" target="_blank" rel="noopener noreferrer">공식 관광 안내에서 더 알아보기 ↗</a></p>' : '';
-      document.getElementById("travel-info").innerHTML = '<p class="eyebrow">' + regions[region].title + '</p><h2>' + plan.title + '</h2><p class="country-name">' + plan.korean + '</p>' + factsHtml + '<p class="itinerary-label">추천 일정 · ' + selectedDays + '일</p><ul class="itinerary">' + plan.route.map((day, index) => '<li><strong>DAY ' + (index + 1) + '</strong><span>' + day + '</span></li>').join("") + '</ul><p class="tip">' + plan.tip + '</p>' + sourceHtml + '<div class="planner-tools"><span>일정 길이 선택</span><button type="button" data-days="3" class="' + (selectedDays === 3 ? "is-selected" : "") + '">3일</button><button type="button" data-days="5" class="' + (selectedDays === 5 ? "is-selected" : "") + '">5일</button><button type="button" data-days="7" class="' + (selectedDays === 7 ? "is-selected" : "") + '">7일</button><button type="button" class="wish-button" data-wishlist="true">' + (saved ? "★ 저장됨" : "☆ 위시리스트") + '</button></div>';
+      const factsHtml = '<div class="plan-grid"><div><span>' + travelCopy.capital + '</span><strong>' + (facts && facts.capital || "현지 주요 도시") + '</strong></div><div><span>' + travelCopy.currency + '</span><strong>' + (facts && facts.currency || "현지 통화") + '</strong></div><div><span>' + travelCopy.language + '</span><strong>' + (facts && facts.language || "현지 언어") + '</strong></div><div><span>' + travelCopy.season + '</span><strong>' + (plan.season || "현지 계절 확인") + '</strong></div><div><span>' + travelCopy.budget + '</span><strong>' + (plan.budget || "항공·숙소 제외") + '</strong></div><div><span>' + travelCopy.transport + '</span><strong>' + (plan.transport || "대중교통·도보") + '</strong></div></div>';
+      const sourceHtml = plan.source ? '<p class="source-link"><a href="' + plan.source + '" target="_blank" rel="noopener noreferrer">' + travelCopy.source + '</a></p>' : '';
+      const countryLabel = travelLanguage === "en" ? name : plan.korean;
+      document.getElementById("travel-info").innerHTML = '<p class="eyebrow">' + travelCopy.regions[region] + '</p><h2>' + plan.title + '</h2><p class="country-name">' + countryLabel + '</p>' + factsHtml + '<p class="itinerary-label">' + travelCopy.itinerary + ' · ' + selectedDays + '</p><ul class="itinerary">' + plan.route.map((day, index) => '<li><strong>DAY ' + (index + 1) + '</strong><span>' + day + '</span></li>').join("") + '</ul><p class="tip">' + plan.tip + '</p>' + sourceHtml + '<div class="planner-tools"><span>' + travelCopy.days + '</span><button type="button" data-days="3" class="' + (selectedDays === 3 ? "is-selected" : "") + '">3</button><button type="button" data-days="5" class="' + (selectedDays === 5 ? "is-selected" : "") + '">5</button><button type="button" data-days="7" class="' + (selectedDays === 7 ? "is-selected" : "") + '">7</button><button type="button" class="wish-button" data-wishlist="true">' + (saved ? travelCopy.saved : travelCopy.wishlist) + '</button></div>';
     }
     function loadFacts(name) {
       if (!countryFacts[name]) countryFacts[name] = { capital: "현지 주요 도시", currency: "현지 통화", language: "현지 언어" };
@@ -209,7 +232,7 @@
       if (selected) showCountry(selected);
     }
     function showLoadError() {
-      document.getElementById("globe").innerHTML = '<div class="loading">지구본을 불러오지 못했습니다.<br>인터넷 연결을 확인한 뒤 새로고침해 주세요.</div>';
+      document.getElementById("globe").innerHTML = '<div class="loading">' + travelCopy.loadError + '</div>';
     }
 
     fetch("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")

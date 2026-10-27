@@ -133,14 +133,12 @@ body.exchange-page #menu-page > section:not(#exchange) { display: none; }
   text-decoration: none;
 }
 
-.photo-placeholder {
-  display: grid;
+.place-photo {
+  display: block;
   width: 100%;
-  height: 280px;
-  place-items: center;
-  background: #e9eee5;
-  color: #20352f;
-  font-size: 40px;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
 
 #trips-title {

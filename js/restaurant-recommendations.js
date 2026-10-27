@@ -93,6 +93,43 @@ var restaurantDestinations = [
 
 var destinationSelect = document.getElementById("destination");
 var restaurantList = document.getElementById("restaurant-list");
+var restaurantLanguage = ["ko", "en", "zh", "ja"].indexOf(localStorage.getItem("bytrip-language")) === -1
+  ? "ko"
+  : localStorage.getItem("bytrip-language");
+var restaurantCopy = {
+  ko: { title: "BYTRIP | 여행지 맛집 추천", navLabel: "주 메뉴", exchange: "현재 환율", food: "맛집 추천", back: "메인으로 돌아가기", heading: "여행지 맛집 추천", intro: "환율 계산기에서 참고한 여행지별 맛집을 골라보세요.", destination: "여행지 선택", all: "전체 여행지", menu: "추천 메뉴" },
+  en: { title: "BYTRIP | Restaurant recommendations", navLabel: "Main menu", exchange: "Exchange rates", food: "Restaurants", back: "Back to main menu", heading: "Restaurant recommendations", intro: "Explore restaurant picks for destinations featured in the currency converter.", destination: "Choose a destination", all: "All destinations", menu: "Recommended dish" },
+  zh: { title: "BYTRIP | 旅行美食推荐", navLabel: "主菜单", exchange: "当前汇率", food: "美食推荐", back: "返回主页", heading: "旅行目的地美食推荐", intro: "探索汇率计算器中所列目的地的推荐餐厅。", destination: "选择目的地", all: "所有目的地", menu: "推荐菜品" },
+  ja: { title: "BYTRIP | 旅行先のおすすめレストラン", navLabel: "メインメニュー", exchange: "現在の為替レート", food: "おすすめグルメ", back: "メインメニューに戻る", heading: "旅行先のおすすめレストラン", intro: "為替計算で紹介した旅行先のおすすめレストランをご覧ください。", destination: "旅行先を選択", all: "すべての旅行先", menu: "おすすめメニュー" }
+};
+var destinationNames = {
+  en: { JPY: ["Japan", "Tokyo"], CNY: ["China", "Beijing"], HKD: ["Hong Kong", "Hong Kong"], IDR: ["Indonesia", "Bali"], INR: ["India", "New Delhi"], MYR: ["Malaysia", "Kuala Lumpur"], PHP: ["Philippines", "Manila"], SGD: ["Singapore", "Singapore"], THB: ["Thailand", "Bangkok"] },
+  zh: { JPY: ["日本", "东京"], CNY: ["中国", "北京"], HKD: ["中国香港", "香港"], IDR: ["印度尼西亚", "巴厘岛"], INR: ["印度", "新德里"], MYR: ["马来西亚", "吉隆坡"], PHP: ["菲律宾", "马尼拉"], SGD: ["新加坡", "新加坡"], THB: ["泰国", "曼谷"] },
+  ja: { JPY: ["日本", "東京"], CNY: ["中国", "北京"], HKD: ["香港", "香港"], IDR: ["インドネシア", "バリ島"], INR: ["インド", "ニューデリー"], MYR: ["マレーシア", "クアラルンプール"], PHP: ["フィリピン", "マニラ"], SGD: ["シンガポール", "シンガポール"], THB: ["タイ", "バンコク"] }
+};
+
+function applyRestaurantLanguage() {
+  var copy = restaurantCopy[restaurantLanguage];
+  var names = destinationNames[restaurantLanguage] || {};
+  document.documentElement.lang = restaurantLanguage;
+  document.title = copy.title;
+  document.querySelector("nav").setAttribute("aria-label", copy.navLabel);
+  document.querySelector("nav a:first-child").textContent = copy.exchange;
+  document.querySelector("nav a:last-child").textContent = copy.food;
+  document.querySelector(".back-link").textContent = copy.back;
+  document.querySelector(".page-intro h1").textContent = copy.heading;
+  document.querySelector(".page-intro > p:not(.eyebrow)").textContent = copy.intro;
+  document.querySelector(".destination-filter").childNodes[0].textContent = copy.destination + " ";
+  destinationSelect.options[0].textContent = copy.all;
+  restaurantDestinations.forEach(function (destination) {
+    var localizedName = names[destination.code];
+    var option = Array.prototype.find.call(destinationSelect.options, function (item) { return item.value === destination.code; });
+    if (option) option.textContent = localizedName
+      ? localizedName[0] + " · " + localizedName[1] + " (" + destination.code + ")"
+      : destination.country + " · " + destination.city + " (" + destination.code + ")";
+  });
+  renderRestaurantRecommendations();
+}
 
 restaurantDestinations.forEach(function (destination) {
   var option = document.createElement("option");
@@ -112,15 +149,18 @@ function renderRestaurantRecommendations() {
   restaurantList.innerHTML = destinations.map(function (destination) {
     var cards = destination.restaurants.map(function (restaurant) {
       return '<article class="restaurant-card"><h3>' + restaurant.name +
-        '</h3><p class="specialty">추천 메뉴 · ' + restaurant.specialty +
+        '</h3><p class="specialty">' + restaurantCopy[restaurantLanguage].menu + ' · ' + restaurant.specialty +
         '</p><p>' + restaurant.description + '</p></article>';
     }).join("");
 
-    return '<section class="destination-section"><h2>' + destination.country +
-      '<span>· ' + destination.city + ' · ' + destination.code + '</span></h2>' +
+    var locationNames = (destinationNames[restaurantLanguage] || {})[destination.code];
+    var destinationName = locationNames ? locationNames[0] : destination.country;
+    var cityName = locationNames ? locationNames[1] : destination.city;
+    return '<section class="destination-section"><h2>' + destinationName +
+      '<span>· ' + cityName + ' · ' + destination.code + '</span></h2>' +
       '<div class="restaurant-cards">' + cards + '</div></section>';
   }).join("");
 }
 
 destinationSelect.addEventListener("change", renderRestaurantRecommendations);
-renderRestaurantRecommendations();
+applyRestaurantLanguage();

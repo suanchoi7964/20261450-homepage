@@ -1,7 +1,12 @@
 function changeLanguage() {
   var language = document.getElementById("language").value;
+  window.setBytripLanguage(language);
   if (language == "en") {
     document.getElementById("exchange-menu-link").innerHTML = "Exchange rates";
+    document.getElementById("food-menu-link").innerHTML = "Restaurant recommendations";
+    document.getElementById("travel-menu-link").innerHTML = "Explore destinations";
+    document.getElementById("flights-menu-link").innerHTML = "Flights";
+    document.getElementById("stays-menu-link").innerHTML = "Accommodation";
     document.getElementById("exchange-title").innerHTML = "Current exchange rates";
     document.getElementById("calculator-title").innerHTML = "Currency converter";
     document.getElementById("amount-label").innerHTML = "Amount";
@@ -29,6 +34,10 @@ function changeLanguage() {
   } else {
     if (language == "zh") {
       document.getElementById("exchange-menu-link").innerHTML = "当前汇率";
+      document.getElementById("food-menu-link").innerHTML = "美食推荐";
+      document.getElementById("travel-menu-link").innerHTML = "开始旅行";
+      document.getElementById("flights-menu-link").innerHTML = "机票";
+      document.getElementById("stays-menu-link").innerHTML = "住宿";
       document.getElementById("exchange-title").innerHTML = "当前汇率";
       document.getElementById("calculator-title").innerHTML = "汇率计算器";
       document.getElementById("amount-label").innerHTML = "金额";
@@ -55,6 +64,10 @@ function changeLanguage() {
       document.getElementById("back-login-button").innerHTML = "返回登录";
     } else if (language == "ja") {
       document.getElementById("exchange-menu-link").innerHTML = "現在の為替レート";
+      document.getElementById("food-menu-link").innerHTML = "おすすめグルメ";
+      document.getElementById("travel-menu-link").innerHTML = "旅に出る";
+      document.getElementById("flights-menu-link").innerHTML = "航空券";
+      document.getElementById("stays-menu-link").innerHTML = "宿泊施設";
       document.getElementById("exchange-title").innerHTML = "現在の為替レート";
       document.getElementById("calculator-title").innerHTML = "通貨換算";
       document.getElementById("amount-label").innerHTML = "金額";
@@ -81,6 +94,10 @@ function changeLanguage() {
       document.getElementById("back-login-button").innerHTML = "ログインに戻る";
     } else {
       document.getElementById("exchange-menu-link").innerHTML = "현재 환율";
+      document.getElementById("food-menu-link").innerHTML = "맛집 추천";
+      document.getElementById("travel-menu-link").innerHTML = "여행 떠나기";
+      document.getElementById("flights-menu-link").innerHTML = "항공권";
+      document.getElementById("stays-menu-link").innerHTML = "숙소";
       document.getElementById("exchange-title").innerHTML = "현재 환율";
       document.getElementById("calculator-title").innerHTML = "환율 계산기";
       document.getElementById("amount-label").innerHTML = "금액";
@@ -246,3 +263,7 @@ function showExchangePage() {
   document.body.classList.add("exchange-page");
 }
 
+var savedLanguage = new URLSearchParams(window.location.search).get("lang") || localStorage.getItem("bytrip-language") || "ko";
+if (["ko", "en", "zh", "ja"].indexOf(savedLanguage) === -1) savedLanguage = "ko";
+document.getElementById("language").value = savedLanguage;
+changeLanguage();

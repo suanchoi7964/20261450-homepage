@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#f8f7f2">
+	<title>숙소 찾기 | BYTRIP</title>
+	<link rel="icon" type="image/png" href="../이미지 폴더/mark.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/accommodation.css">
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="travel-menu.html" aria-label="BYTRIP 홈"><img src="../이미지 폴더/mark.png" alt=""><span>BYTRIP</span></a>
+		<nav class="main-nav" aria-label="주요 메뉴">
+			<a class="nav-link" href="air%20ticket.html">항공권</a>
+			<a class="nav-link is-current" href="accommodation.html">숙소</a>
+		</nav>
+		<a class="header-link" href="travel-menu.html">여행 홈 <span aria-hidden="true">↗</span></a>
+	</header>
+
+	<main>
+		<section class="stay-hero" aria-labelledby="stay-title">
+			<div class="stay-hero-copy">
+				<p class="eyebrow"><span></span> A PLACE TO CALL YOUR OWN</p>
+				<h1 id="stay-title">머무는 순간까지,<br><span>여행답게.</span></h1>
+				<p id="stay-subtitle">이번 여행에 꼭 맞는 공간을 찾아보세요.</p>
+			</div>
+			<p class="photo-credit">SLOW MORNINGS, SOMEWHERE NEW</p>
+		</section>
+
+		<section class="stay-search-section" aria-label="숙소 검색">
+			<form class="stay-search-panel" id="stay-search">
+				<label class="stay-field destination-field" for="stay-destination">
+					<span class="field-kicker" id="destination-label">어디로 떠나세요?</span>
+					<span class="stay-value"><span class="stay-icon" aria-hidden="true">⌖</span><select id="stay-destination" name="destination">
+						<option value="all">어디든 좋아요</option><option value="tokyo">도쿄</option><option value="osaka">오사카</option><option value="danang">다낭</option><option value="jeju">제주</option><option value="bangkok">방콕</option><option value="seoul">서울</option>
+					</select></span>
+				</label>
+				<label class="stay-field" for="check-in"><span class="field-kicker" id="checkin-label">체크인</span><span class="stay-value"><span class="stay-icon calendar-icon" aria-hidden="true">▦</span><input id="check-in" name="checkIn" type="date" required></span></label>
+				<label class="stay-field" for="check-out"><span class="field-kicker" id="checkout-label">체크아웃</span><span class="stay-value"><span class="stay-icon calendar-icon" aria-hidden="true">▦</span><input id="check-out" name="checkOut" type="date" required></span></label>
+				<div class="stay-field guest-field">
+					<span class="field-kicker" id="guest-label">투숙 인원</span>
+					<span class="guest-control"><button type="button" class="guest-stepper" id="guest-minus" aria-label="인원 줄이기">−</button><input id="guest-count" type="number" min="1" max="8" value="2" aria-label="투숙 인원"><button type="button" class="guest-stepper" id="guest-plus" aria-label="인원 늘리기">+</button><span id="guest-suffix">명</span></span>
+				</div>
+				<button class="stay-search-button" type="submit"><span aria-hidden="true">⌕</span><span id="search-label">숙소 찾기</span></button>
+			</form>
+		</section>
+
+		<section class="listing-section" id="stays">
+			<div class="listing-heading">
+				<div><p class="eyebrow dark-eyebrow" id="listing-eyebrow">A GOOD PLACE, WELL FOUND</p><h2 id="listing-title">마음에 머무는 숙소</h2><p class="listing-count" id="listing-count" aria-live="polite"></p></div>
+				<label class="sort-control" for="stay-sort"><span id="sort-label">정렬</span><select id="stay-sort"><option value="recommended">추천순</option><option value="price">가격 낮은 순</option><option value="rating">평점 높은 순</option></select></label>
+			</div>
+			<div class="catalog-layout">
+				<aside class="filters" aria-label="숙소 필터">
+					<div class="filter-heading"><h3 id="filter-title">필터</h3><button type="button" id="reset-filters">초기화</button></div>
+					<fieldset class="type-filters"><legend id="type-legend">숙소 유형</legend>
+						<label><input class="type-filter" type="checkbox" value="hotel" checked><span data-type="hotel">호텔</span></label>
+						<label><input class="type-filter" type="checkbox" value="resort" checked><span data-type="resort">리조트</span></label>
+						<label><input class="type-filter" type="checkbox" value="guesthouse" checked><span data-type="guesthouse">게스트하우스</span></label>
+					</fieldset>
+					<div class="budget-filter"><label for="max-price" id="budget-label">1박 요금 상한</label><strong id="budget-value"></strong><input id="max-price" type="range" min="80000" max="400000" step="10000" value="300000"><div class="range-ends"><span>₩80,000</span><span>₩400,000+</span></div></div>
+					<p class="filter-note" id="filter-note">표시 가격은 1박 기준 예시입니다.</p>
+				</aside>
+				<div class="property-grid" id="property-grid" aria-live="polite"></div>
+			</div>
+		</section>
+
+		<section class="destination-strip" aria-labelledby="destination-title">
+			<div class="destination-intro"><p class="eyebrow dark-eyebrow" id="destination-eyebrow">A CHANGE OF SCENERY</p><h2 id="destination-title">다음 숙소는 어디에서?</h2></div>
+			<div class="destination-links"><button type="button" data-city="tokyo">Tokyo <span>↗</span></button><button type="button" data-city="osaka">Osaka <span>↗</span></button><button type="button" data-city="danang">Da Nang <span>↗</span></button><button type="button" data-city="jeju">Jeju <span>↗</span></button></div>
+		</section>
+	</main>
+
+	<footer class="site-footer"><a class="brand footer-brand" href="travel-menu.html"><img src="../이미지 폴더/mark.png" alt=""><span>BYTRIP</span></a><p id="footer-copy">좋은 여행은 잘 고른 숙소에서 시작돼요.</p><span>© BYTRIP · STAY DEMO</span></footer>
+	<dialog class="property-dialog" id="property-dialog">
+		<button class="dialog-close" type="button" id="dialog-close" aria-label="닫기">×</button><img id="dialog-image" src="" alt="">
+		<div class="dialog-copy"><p class="eyebrow dark-eyebrow" id="dialog-location"></p><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-amenities" id="dialog-amenities"></div><p class="dialog-price" id="dialog-price"></p><p class="dialog-note" id="dialog-note">이 페이지는 숙소 검색 화면 예시이며 실제 예약은 지원하지 않습니다.</p></div>
+	</dialog>
+	<script src="../js/language-state.js"></script>
+	<script src="../js/accommodation.js"></script>
+</body>
+</html>

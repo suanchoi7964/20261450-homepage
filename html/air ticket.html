@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#f8f7f2">
+	<title>항공권 검색 | BYTRIP</title>
+	<link rel="icon" type="image/png" href="../이미지 폴더/mark.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/air-ticket.css">
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="travel-menu.html" aria-label="BYTRIP 홈">
+			<img src="../이미지 폴더/mark.png" alt="">
+			<span>BYTRIP</span>
+		</a>
+		<nav class="main-nav" aria-label="주요 메뉴">
+			<a class="nav-link is-current" href="air%20ticket.html">항공권</a>
+			<a class="nav-link" href="accommodation.html">숙소</a>
+		</nav>
+		<a class="header-link" href="travel-menu.html">여행 홈 <span aria-hidden="true">↗</span></a>
+	</header>
+
+	<main>
+		<section class="hero" aria-labelledby="hero-title">
+			<div class="hero-content">
+				<p class="eyebrow"><span></span> YOUR NEXT TRIP STARTS HERE</p>
+				<h1 id="hero-title">어디로든,<br><span>가볍게 떠나요.</span></h1>
+				<p class="hero-note">떠나고 싶은 곳을 고르면, 여행의 첫 장면이 시작돼요.</p>
+			</div>
+			<p class="photo-credit">A WINDOW SEAT MOMENT</p>
+		</section>
+
+		<section class="search-section" aria-label="항공권 검색">
+			<form class="search-panel" id="flight-search">
+				<div class="form-topline">
+					<fieldset class="trip-type" aria-label="여정 유형">
+						<label class="type-option is-selected"><input type="radio" name="tripType" value="roundtrip" checked><span>왕복</span></label>
+						<label class="type-option"><input type="radio" name="tripType" value="oneway"><span>편도</span></label>
+					</fieldset>
+					<label class="passenger-field" for="passengers">
+						<span class="field-kicker">탑승 인원</span>
+						<span class="passenger-control">
+							<button type="button" class="stepper" id="passenger-minus" aria-label="탑승 인원 줄이기">−</button>
+							<input id="passengers" name="passengers" type="number" min="1" max="9" value="1" aria-label="탑승 인원">
+							<button type="button" class="stepper" id="passenger-plus" aria-label="탑승 인원 늘리기">+</button>
+							<span>명</span>
+						</span>
+					</label>
+					<label class="class-field" for="cabin-class">
+						<span class="field-kicker">좌석 등급</span>
+						<select id="cabin-class" name="cabinClass">
+							<option value="economy">일반석</option>
+							<option value="business">비즈니스</option>
+						</select>
+					</label>
+				</div>
+
+				<div class="search-fields">
+					<label class="field airport-field" for="origin">
+						<span class="field-kicker">출발지</span>
+						<span class="field-value"><span class="field-icon" aria-hidden="true">↗</span><select id="origin" name="origin">
+							<option value="서울 (인천) · ICN" selected>서울 (인천) · ICN</option>
+							<option value="서울 (김포) · GMP">서울 (김포) · GMP</option>
+							<option value="부산 · PUS">부산 · PUS</option>
+							<option value="제주 · CJU">제주 · CJU</option>
+						</select></span>
+					</label>
+					<button class="swap-button" type="button" id="swap-cities" aria-label="출발지와 도착지 바꾸기" title="출발지와 도착지 바꾸기">⇄</button>
+					<label class="field airport-field" for="destination">
+						<span class="field-kicker">도착지</span>
+						<span class="field-value"><span class="field-icon destination-icon" aria-hidden="true">⌖</span><select id="destination" name="destination">
+							<option value="오사카 · KIX" selected>오사카 · KIX</option>
+							<option value="도쿄 (하네다) · HND">도쿄 (하네다) · HND</option>
+							<option value="후쿠오카 · FUK">후쿠오카 · FUK</option>
+							<option value="방콕 · BKK">방콕 · BKK</option>
+							<option value="다낭 · DAD">다낭 · DAD</option>
+							<option value="제주 · CJU">제주 · CJU</option>
+						</select></span>
+					</label>
+					<label class="field date-field" for="depart-date">
+						<span class="field-kicker">가는 날</span>
+						<span class="field-value"><span class="field-icon calendar-icon" aria-hidden="true">▦</span><input id="depart-date" name="departDate" type="date" required></span>
+					</label>
+					<label class="field date-field return-field" for="return-date" id="return-field">
+						<span class="field-kicker">오는 날</span>
+						<span class="field-value"><span class="field-icon calendar-icon" aria-hidden="true">▦</span><input id="return-date" name="returnDate" type="date" required></span>
+					</label>
+					<button class="search-button" type="submit"><span aria-hidden="true">⌕</span> 항공권 찾기</button>
+				</div>
+				<p class="form-hint" id="form-message" aria-live="polite">표시되는 항공편과 운임은 화면 확인을 위한 예시입니다.</p>
+			</form>
+		</section>
+
+		<section class="results-section" id="results" aria-live="polite" hidden>
+			<div class="section-heading results-heading">
+				<div><p class="eyebrow dark-eyebrow">FLIGHT PICKS</p><h2 id="results-title">검색 결과</h2></div>
+				<label class="sort-control" for="sort-flights"><span id="sort-label">정렬</span>
+					<select id="sort-flights"><option value="recommended">추천순</option><option value="price">낮은 가격순</option><option value="duration">짧은 여정순</option></select>
+				</label>
+			</div>
+			<p class="results-disclaimer">아래 항공편과 가격은 예시 데이터이며, 실제 예약 및 실시간 운임 조회는 제공하지 않습니다.</p>
+			<div class="flight-list" id="flight-list"></div>
+		</section>
+
+		<section class="inspiration-section" aria-labelledby="inspiration-title">
+			<div class="section-heading">
+				<div><p class="eyebrow dark-eyebrow">A LITTLE INSPIRATION</p><h2 id="inspiration-title">요즘 떠나기 좋은 곳</h2></div>
+				<p class="section-aside">마음이 가는 곳을 눌러<br>다음 여정을 시작해 보세요.</p>
+			</div>
+			<div class="destination-list">
+				<button class="destination-row" type="button" data-destination="오사카 · KIX"><span class="destination-number">01</span><span class="destination-name">오사카</span><span class="destination-country">JAPAN · KIX</span><span class="destination-price"><span class="fare-caption">왕복 예시</span> <strong>₩189,000~</strong></span><span class="destination-arrow" aria-hidden="true">↗</span></button>
+				<button class="destination-row" type="button" data-destination="도쿄 (하네다) · HND"><span class="destination-number">02</span><span class="destination-name">도쿄</span><span class="destination-country">JAPAN · HND</span><span class="destination-price"><span class="fare-caption">왕복 예시</span> <strong>₩214,000~</strong></span><span class="destination-arrow" aria-hidden="true">↗</span></button>
+				<button class="destination-row" type="button" data-destination="방콕 · BKK"><span class="destination-number">03</span><span class="destination-name">방콕</span><span class="destination-country">THAILAND · BKK</span><span class="destination-price"><span class="fare-caption">왕복 예시</span> <strong>₩328,000~</strong></span><span class="destination-arrow" aria-hidden="true">↗</span></button>
+				<button class="destination-row" type="button" data-destination="다낭 · DAD"><span class="destination-number">04</span><span class="destination-name">다낭</span><span class="destination-country">VIETNAM · DAD</span><span class="destination-price"><span class="fare-caption">왕복 예시</span> <strong>₩276,000~</strong></span><span class="destination-arrow" aria-hidden="true">↗</span></button>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer"><a class="brand footer-brand" href="travel-menu.html"><img src="../이미지 폴더/mark.png" alt=""><span>BYTRIP</span></a><p>좋은 여행은 설레는 검색에서부터.</p><span>© BYTRIP · FLIGHT DEMO</span></footer>
+	<script src="../js/language-state.js"></script>
+	<script src="../js/air-ticket.js"></script>
+</body>
+</html>
